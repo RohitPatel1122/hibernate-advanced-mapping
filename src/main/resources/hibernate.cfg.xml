@@ -1,0 +1,36 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+   <session-factory>
+   
+      <property name = "hibernate.dialect">
+         org.hibernate.dialect.OracleDialect
+      </property>
+      
+      <property name = "hibernate.connection.driver_class">
+         oracle.jdbc.driver.OracleDriver
+      </property>
+      
+   
+      
+      <property name = "hibernate.connection.url">
+        jdbc:oracle:thin:@Rohit-hp-note:1521:XE
+        
+      </property>
+      
+      <property name = "hibernate.connection.username">
+        hibernate_advanced_mapping
+      </property>
+      
+      <property name = "hibernate.connection.password">
+         rohit123
+      </property>
+    
+				<property name ="hibernate.hbm2ddl.auto">create</property>
+				<property name="hibernate.show_sql">true</property>
+      <mapping class="com.one_to_one.Employee"/>
+      <mapping class="com.one_to_one.Address"/>
+      
+   </session-factory>
+</hibernate-configuration>
