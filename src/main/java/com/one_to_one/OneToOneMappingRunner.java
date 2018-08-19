@@ -16,7 +16,7 @@ public class OneToOneMappingRunner {
 
 		Configuration configuration = new Configuration();
 
-		configuration.configure("hibernate.cfg.xml");
+		configuration.configure("hibernate_one_to_one.cfg.xml");
 
 		ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties())
 				.buildServiceRegistry();
@@ -25,24 +25,39 @@ public class OneToOneMappingRunner {
 		Session session= null;
 		Transaction t=null;
 		
-		//create Employee and Address object
-		Address address= new Address("KAR", 5500054);
-		
-		Employee emp= new Employee("rohit patel", address);
+		//create Student and StudentDetails object
+		try{
+		/*StudentDetails studentDetails = new StudentDetails("Dinesh Patel", "Playing Cricket");
+		Student student= new Student( "Rohit",studentDetails );
 		
 		session=sessionFactory.openSession();
 		t= session.beginTransaction();
-		
-		session.save(emp);
+		System.out.println("SAVING STUDENT");
+		student.setId((int) session.save(student));
 		t.commit();
-		System.out.println("DATA SAVED");
+		System.out.println("DATA SAVED");*/
 		
-		List<Employee> list= session.createQuery("from Employee").list();
 		
-		for(Employee e: list){
-			System.out.println(e.toString());
+		
+		
+		Student student = null;
+		session= sessionFactory.openSession();
+		t= session.beginTransaction();
+		int id=2;
+		student= (Student) session.get(Student.class, id);
+		System.out.println("\n\n -> DELETING STUDENT: "+student);
+		
+		session.delete(student);
+		
+		t.commit();
+		System.out.println("DELETED STUDENT :");
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}finally{
+			if(session.isOpen()){
+			session.close();
+			}
 		}
-		
 		
 
 	}

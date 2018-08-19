@@ -24,13 +24,14 @@
       </property>
       
       <property name = "hibernate.connection.password">
-         xxxxxxx
+         xxxxx
       </property>
     
 				<property name ="hibernate.hbm2ddl.auto">create</property>
 				<property name="hibernate.show_sql">true</property>
-      <mapping class="com.one_to_one.Employee"/>
-      <mapping class="com.one_to_one.Address"/>
+      <mapping class="com.one_to_many.Student"/>
+      
+      <mapping class="com.one_to_many.Course"/>
       
    </session-factory>
 </hibernate-configuration>
