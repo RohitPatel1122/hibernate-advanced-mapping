@@ -1,4 +1,4 @@
-package com.one_to_many;
+package com.one_to_many_bi_directional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +67,9 @@ public class OneToManyRunner {
 			System.out.println("->>COURSE ADDED");
 			session.update(s1);
 			t.commit();
+			s1= (Student) session.get(Student.class, s1_id);
+			System.out.println(s1.getCourses().toString());
+			
 			session.close();
 			System.out.println("DONE");
 

@@ -1,4 +1,4 @@
-package com.one_to_many;
+package com.many_to_many;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -30,10 +30,13 @@ public class Student {
 	private String name;
 
 	
-	//@OneToMany->tells one student can have many courses.
-	//mappedBy tells, to look for the student property in Course class, and map to it.
-	@OneToMany( mappedBy="student",fetch= FetchType.LAZY, 
-			cascade= {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	//@ManyToMany->tells many student can have many courses.
+	
+	@ManyToMany(fetch= FetchType.LAZY, cascade= {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@JoinTable(
+				name="student_course",
+				joinColumns= @JoinColumn(name="STUDENT_ID"),
+				inverseJoinColumns=@JoinColumn(name="COURSE_ID"))
 	private List<Course> courses;
 	
 	public Student(String name) {
@@ -73,14 +76,8 @@ public class Student {
 	}
 	
 	public void addCourse(Course theCourse){
-		
-		if(this.courses==null){
-			courses= new ArrayList<Course>();
-		}
 		courses.add(theCourse);
-		
-		//add bi-directional relationship
-		theCourse.setStudent(this);
+		//theCourse.setStudent(this);
 	}
 
 	@Override

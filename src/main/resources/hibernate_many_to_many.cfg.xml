@@ -29,9 +29,9 @@
     
 				<property name ="hibernate.hbm2ddl.auto">create</property>
 				<property name="hibernate.show_sql">true</property>
-      <mapping class="com.one_to_many_bi_directional.Student"/>
+      <mapping class="com.many_to_many.Student"/>
       
-      <mapping class="com.one_to_many_bi_directional.Course"/>
+      <mapping class="com.many_to_many.Course"/>
       
    </session-factory>
 </hibernate-configuration>

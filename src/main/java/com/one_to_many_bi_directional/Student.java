@@ -1,5 +1,6 @@
-package com.one_to_one;
+package com.one_to_many_bi_directional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,8 +16,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.one_to_many_bi_directional.Course;
-
 @Entity
 @Table(name = "STUDENT")
 public class Student {
@@ -30,23 +29,16 @@ public class Student {
 	@Column(name = "NAME")
 	private String name;
 
-	// @OneToOne- tell hibernate that studentDetails and Student has one-to-one
-	// mapping
-	// this is uni-directional relationship (Student->studentDetails)
-	// to get bi-directional, add @OneToOne(mappedby= "<studentDetails property
-	// in student class>") to the student property in studentDetails class
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "STUDENT_DETAILS_ID")
-	private StudentDetails studentDetails;
-
+	
+	//@OneToMany->tells one student can have many courses.
+	//mappedBy tells, to look for the student property in Course class, and map to it.
 	@OneToMany( mappedBy="student",fetch= FetchType.LAZY, 
 			cascade= {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private List<Course> courses;
 	
-	public Student(String name, StudentDetails studentDetails) {
-		super();
+	public Student(String name) {
 		this.name = name;
-		this.studentDetails = studentDetails;
+		
 	}
 
 	public Student() {
@@ -70,12 +62,25 @@ public class Student {
 		this.name = name;
 	}
 
-	public StudentDetails getStudentDetails() {
-		return studentDetails;
+	
+
+	public List<Course> getCourses() {
+		return courses;
 	}
 
-	public void setStudentDetails(StudentDetails studentDetails) {
-		this.studentDetails = studentDetails;
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
+	}
+	
+	public void addCourse(Course theCourse){
+		
+		if(this.courses==null){
+			courses= new ArrayList<Course>();
+		}
+		courses.add(theCourse);
+		
+		//add bi-directional relationship
+		theCourse.setStudent(this);
 	}
 
 	@Override
